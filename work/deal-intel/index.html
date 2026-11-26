@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Deal Intel · Liran Drabkin</title><meta name="description" content="Turn CRM activity into transparent deal-health signals, a 0–100 score and a clear next action, helping reps focus on the opportunities that need attention now."><meta property="og:title" content="Deal Intel · Liran Drabkin"><meta property="og:description" content="Turn CRM activity into transparent deal-health signals, a 0–100 score and a clear next action, helping reps focus on the opportunities that need attention now."><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/assets/case.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="/assets/desert.js"></script></head><body><canvas id="gl" aria-hidden="true"></canvas><div class="bar"><div class="in"><a class="nm" href="/">Liran Drabkin</a><nav aria-label="Main"><a href="/#work">Work</a><a href="/#thinking">How I think</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">LinkedIn ↗</a></nav></div></div><main><header class="chero in"><a class="back" href="/#work">← All work</a><span class="cat">Pipeline health</span><h1>Deal Intel</h1><p class="sub">Give every deal a reason to move, or a reason to worry.</p><p class="headline">Stop guessing which deals deserve attention. Turn CRM activity into transparent deal-health signals, a 0–100 score and a clear next action, helping reps focus on the opportunities that need attention now.</p><div class="facts"><div><span class="l">My role</span><p>Designed and built end to end</p></div><div><span class="l">Built with</span><ul class="chips"><li>Next.js</li><li>TypeScript</li><li>HubSpot API</li><li>Vitest</li><li>Render</li></ul></div><div><span class="l">How it works</span><ol class="flow"><li>CRM activity</li><li>6 signals</li><li>Score 0–100</li><li>Today&#39;s action</li></ol></div></div><p class="outcome">One deal. One clear signal. One next action.</p></header><section class="summary in" aria-label="Summary"><div class="sumcard"><section><h2>The problem</h2><p>Sales teams have plenty of CRM data, but very little of it tells reps what they should actually do next.</p><p>Activity, engagement and deal signals are scattered across records. Managers struggle to spot which opportunities are progressing, which are stalling and where intervention could make a difference.</p></section><section><h2>What I built</h2><p>A deal intelligence engine that evaluates six signals from CRM activity, translates them into a transparent 0–100 deal score and surfaces a recommended next action.</p><p>Instead of asking reps to interpret another dashboard, the system turns deal signals into a practical daily priority.</p></section><section class="no"><h2>Left out, on purpose</h2><p>Another black-box scoring model.</p><p>A score without an explanation creates skepticism, not adoption. The system makes its signals and reasoning visible so reps can understand why a deal needs attention.</p></section><section class="rule"><h2>The principle behind it</h2><p>A score is only useful when someone knows what to do with it.</p></section><section class="res"><h2>The result</h2><p>A structured view of deal health that connects every score to its underlying signals and a recommended action.</p><p>Less time interpreting CRM activity. More time deciding what to do about it.</p></section></div></section><section class="full in" aria-label="Full case study"><div class="paper"><span class="k">The full case study</span><div class="prose"><h2 id="the-business-problem">The business problem</h2>
+<p>Pipeline reviews tend to run on gut feel. A deal “feels good”, the close date slides a month, and nobody notices until the quarter is gone. The CRM already holds the evidence (who is involved, when the buyer last engaged, whether meetings happen), but nobody reads it deal by deal.</p>
+<p>I saw first-hand how not connecting the dots fails the people who need it most. The data that would help account executives perform better and win more already existed, spread across different systems, but it never came together into one clear grade and one clear next step.</p>
+<h2 id="how-i-read-the-requirements">How I read the requirements</h2>
+<p>I started from the people, not the data: <strong>one question per audience</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Audience</th>
+<th>Their question</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revenue leader</td>
+<td>Will we hit quota this quarter, and which 3 deals decide it?</td>
+<td>Quarter</td>
+</tr>
+<tr>
+<td>Account executive</td>
+<td>What’s the one action to take today, and on which deal?</td>
+<td>My day</td>
+</tr>
+</tbody>
+</table>
+<p>Everything else (all deals, won vs lost, pipeline health, the scoring rubric) sits one level down under “More”. If a page didn’t answer one of the two questions, it didn’t make the front.</p>
+<h2 id="key-decisions-and-trade-offs">Key decisions and trade-offs</h2>
+<p><strong>1. A transparent rubric, not a black-box model.</strong>
+Every deal gets a 0–100 score from six buyer-engagement signals: multi-threading, recent activity, meetings held, days since last touch, close-date slips, and a next step. Each signal has fixed bands and a one-line “why” (for example, “Deals with several buyer contacts survive a champion leaving or going quiet”). A rep can see exactly why a deal scored 45 and what would move it.</p>
+<p><strong>2. Score closed deals as they stood on their close date.</strong>
+That makes the “Won vs lost” page honest: it shows which signals actually separated wins from losses in <em>this</em> pipeline, written as plain sentences (“Deals with 2+ people won 73%. Deals with one won 14%.”). The rubric can then be checked against reality instead of assumed.</p>
+<p><strong>3. Overdue deals stay in the current quarter.</strong>
+Open deals whose close date has already passed are counted in the current quarter. Leaving them out would quietly hide slipped pipeline; the rep still has to close or move them.</p>
+<p><strong>4. One action per deal, strongest risk first.</strong>
+Each deal gets the first play it qualifies for, and a passed close date always comes first, because the forecast is wrong until it’s fixed.</p>
+<p><strong>5. Account briefs that separate fact from opinion.</strong>
+Each action opens a brief: company, buying group, and a SWOT where every line is tagged <em>evidence</em> or <em>our read</em>, plus what the brief can’t see.</p>
+<h2 id="how-i-handled-risk">How I handled risk</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>What I built</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wrong or malformed CRM data breaks the scores</td>
+<td>All CRM responses are validated and mapped in one place before the scoring engine sees them</td>
+</tr>
+<tr>
+<td>Scoring logic drifts or regresses</td>
+<td>The scoring engine is pure (no I/O) and fully unit-tested; lint, typecheck and coverage run before every change</td>
+</tr>
+<tr>
+<td>Demo data contaminates a real CRM</td>
+<td>The seed script tags every record it creates, and an unseed script moves exactly those records to the recycle bin. The docs say to use a test portal.</td>
+</tr>
+<tr>
+<td>Exposing deal data publicly</td>
+<td>Login with an admin password (12+ characters), generated session secret, rate limiting</td>
+</tr>
+<tr>
+<td>A demo that needs credentials to show anything</td>
+<td>Demo mode with generated sample deals; adding a CRM token later switches it to live data</td>
+</tr>
+<tr>
+<td>Least privilege</td>
+<td>The app’s CRM token needs read scopes only; write scopes are needed just for the seed script</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture">Architecture</h2>
+<pre><code>CRM (deals, contacts, companies, activities)
+  → one I/O module + validation / mapping
+  → pure core: score · forecast · win factors · actions · brief
+  → pages: Quarter · My day · More
+</code></pre>
+<h2 id="outcome">Outcome</h2>
+<p>A deployed app that runs on live CRM data or on demo data, with a forecast a leader can question line by line and a daily action list a rep can actually work through.</p>
+<h2 id="what-id-do-next">What I’d do next</h2>
+<ul>
+<li>Recalibrate the rubric weights from the won-vs-lost results once there’s enough closed history.</li>
+<li>Push the daily action to where reps already work (chat or the CRM task list) instead of a separate page.</li>
+</ul></div></div></section><nav class="next in" aria-label="Next case study"><a href="/work/revenue-team-hub/"><span><span class="l">Next case study</span><span class="t">Revenue Team Hub →</span></span><span class="h">One closed deal. Seven systems in sync.</span></a></nav></main><footer><div class="in"><span>© 2026 Liran Drabkin</span><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a></div></footer><script>(function(){const t = 0.58;
+const z = -1950;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gl = window.Desert ? Desert.create(document.getElementById("gl"), { reduce }) : (document.body.classList.add("nogl"), null);
+  if (gl) {
+    const loop = (time) => { gl(time, t, z - Math.min(scrollY * 0.25, 900)); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();</script></body></html>

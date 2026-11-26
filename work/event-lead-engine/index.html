@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Live Event Lead Engine · Liran Drabkin</title><meta name="description" content="Transform event badge scans into enriched, qualified leads. AI researches each contact, identifies persona and fit, and routes the lead to the right rep with a relevant next action."><meta property="og:title" content="Live Event Lead Engine · Liran Drabkin"><meta property="og:description" content="Transform event badge scans into enriched, qualified leads. AI researches each contact, identifies persona and fit, and routes the lead to the right rep with a relevant next action."><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/assets/case.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="/assets/desert.js"></script></head><body><canvas id="gl" aria-hidden="true"></canvas><div class="bar"><div class="in"><a class="nm" href="/">Liran Drabkin</a><nav aria-label="Main"><a href="/#work">Work</a><a href="/#thinking">How I think</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">LinkedIn ↗</a></nav></div></div><main><header class="chero in"><a class="back" href="/#work">← All work</a><span class="cat">Lead routing</span><h1>Live Event Lead Engine</h1><p class="sub">The conversation shouldn&#39;t start when the event ends.</p><p class="headline">Turn booth scans into sales-ready conversations. Transform event badge scans into enriched, qualified leads. AI researches each contact, identifies persona and fit, and routes the lead to the right rep with a relevant next action.</p><div class="facts"><div><span class="l">My role</span><p>Designed and built end to end</p></div><div><span class="l">Built with</span><ul class="chips"><li>Make</li><li>Gemini</li><li>AI web search</li><li>HubSpot</li><li>Slack</li><li>Webhooks</li></ul></div><div><span class="l">How it works</span><ol class="flow"><li>Badge scan</li><li>AI research</li><li>Persona &amp; tier</li><li>Route</li></ol></div></div><p class="outcome">From badge scan to actionable follow-up in seconds.</p></header><section class="summary in" aria-label="Summary"><div class="sumcard"><section><h2>The problem</h2><p>Every event generates a stream of potential customers. But a badge scan alone tells a sales rep almost nothing about who they just met.</p><p>By the time contacts are manually enriched, researched, qualified and assigned, valuable context is lost and promising conversations go cold.</p></section><section><h2>What I built</h2><p>An automated event lead engine that turns a badge scan into an actionable sales handoff.</p><p>The workflow enriches contact and company information, uses AI to research the prospect, identifies persona and qualification tier, and routes the lead to the appropriate sales rep with context for the next conversation.</p></section><section class="no"><h2>Left out, on purpose</h2><p>Treating every badge scan as an equally valuable lead.</p><p>Rather than flooding Sales with unqualified contacts, the workflow distinguishes between personas and fit, so reps receive context and prioritization instead of another generic lead notification.</p></section><section class="rule"><h2>The principle behind it</h2><p>Speed creates value only when context travels with it.</p></section><section class="res"><h2>The result</h2><p>A badge scan becomes a researched, categorized and routed sales opportunity, with a clear next action attached.</p></section></div></section><section class="full in" aria-label="Full case study"><div class="paper"><span class="k">The full case study</span><div class="prose"><h2 id="the-business-problem">The business problem</h2>
+<p>An identity-security company exhibits at large industry conferences. Hundreds of people walk past the booth in a day. Some are exactly the buyer it wants, some are the engineers who would champion it internally, some are auditors, and some are competitors fishing for product details.</p>
+<p>At the booth, the rep has seconds to know <strong>who is standing in front of them and what to do about it</strong>. After the event, marketing needs a CRM that is clean and enriched enough to run follow-up playbooks without a week of manual cleanup.</p>
+<p>The brief: a booth scanner fires a webhook for each badge scan. Classify the person against the ideal customer profile, alert the right people in real time with something more useful than “New lead”, and sync the contact to the CRM without duplicates. <strong>Free tiers only.</strong></p>
+<h2 id="how-i-read-the-requirements">How I read the requirements</h2>
+<p>The brief listed three jobs (classify, alert, sync), but I treated it as three different audiences with different needs:</p>
+<table>
+<thead>
+<tr>
+<th>Who</th>
+<th>What they need</th>
+<th>What that meant for the design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rep at the booth</td>
+<td>One instruction, now</td>
+<td>Every alert ends with a concrete “Do this” line, not a score</td>
+</tr>
+<tr>
+<td>Sales leadership</td>
+<td>Only the leads worth interrupting someone for</td>
+<td>Out-of-scope leads produce <strong>no alert at all</strong>; competitors go to a separate channel</td>
+</tr>
+<tr>
+<td>Marketing ops, after the event</td>
+<td>A CRM they can trust</td>
+<td>Upsert on email, persona and tier as properties, lead status and lifecycle stage set by rule</td>
+</tr>
+</tbody>
+</table>
+<p>The ideal customer profile had four parts I had to turn into logic: company size (1,000+ employees, under 500 is out), regulated industries, three buyer personas (security executive, identity engineer, compliance auditor), and urgency triggers (an incumbent-vendor renewal within six months, a recent breach, an active audit deadline).</p>
+<h2 id="key-decisions-and-trade-offs">Key decisions and trade-offs</h2>
+<p><strong>1. AI for messy text, rules for everything that has a right answer.</strong>
+Job titles are messy (“Lead Identity Infrastructure Architect” is an identity engineer; “Head of IT” might be anything). That is what a language model is good at. But I didn’t let it decide freely: the prompt gives it a <strong>fixed priority order</strong> (competitor first, then out of scope, then the three personas, then “Unclassified”) and a fixed JSON shape. Owner assignment, lead status, lifecycle stage and email type are plain rules in the flow, not AI.</p>
+<p><strong>2. Competitor check comes first.</strong>
+A competitor with a senior title would otherwise look like a perfect lead and trigger a hot alert to sales. Checking the email domain against a known competitor list before anything else means a competitor can never be fast-tracked by accident.</p>
+<p><strong>3. Look the company up, but don’t trust the name.</strong>
+Badge data says nothing reliable about company size or industry, and both are in the ideal customer profile. A live web-search step researches the company <strong>by email domain</strong>, and the prompt tells it to return “Unknown” if it can’t verify a real company at that domain, rather than matching on the company name alone. When research comes back “Unknown”, the classifier falls back to the booth notes, and the alert says “Not verified” instead of guessing.</p>
+<p><strong>4. Two tiers, not a score.</strong>
+I used Hot / Warm instead of a 0–100 score. At a booth, a rep can act on “hot, here’s why” in a second; a number needs interpreting.</p>
+<p><strong>6. A platform I already knew well.</strong>
+The brief allowed Make or n8n. I chose Make because I knew it well, and with a deadline, speed of building mattered more than the platform itself.</p>
+<p><strong>5. Each persona gets a different conversation.</strong>
+The classifier returns a one-sentence reason and a one-sentence talk track. The alert shows who the person is, verified industry and size, why they matter now, and what to say. Hot alerts say “Do this:”; warm ones say “Suggested approach:”.</p>
+<h2 id="how-i-handled-risk">How I handled risk</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>What I built</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same person scanned twice floods the channel</td>
+<td>The flow searches the CRM by email first. It alerts only if the contact is <strong>new</strong>, or if their persona or tier <strong>changed</strong> since the last scan. The CRM record is updated either way.</td>
+</tr>
+<tr>
+<td>Duplicate contacts in the CRM</td>
+<td>Upsert keyed on email, never a blind create</td>
+</tr>
+<tr>
+<td>A competitor gets fast-tracked</td>
+<td>Competitor rule runs first; competitors are marked unqualified, get no lifecycle stage, and go to a competitive-intel channel</td>
+</tr>
+<tr>
+<td>AI invents company facts</td>
+<td>Research is tied to the email domain and must say “Unknown” when unverifiable; alerts label unverified data</td>
+</tr>
+<tr>
+<td>AI returns malformed output</td>
+<td>Responses are stripped of markdown fences before JSON parsing, and the prompt demands one exact JSON shape</td>
+</tr>
+<tr>
+<td>Leads that fit no profile get forced into one</td>
+<td>An explicit “Unclassified” outcome: logged in the CRM as a new lead and posted to a review channel with “no action needed right now”</td>
+</tr>
+<tr>
+<td>Noise for the team</td>
+<td>Out-of-scope leads are synced but produce no alert</td>
+</tr>
+<tr>
+<td>Personal email addresses pollute company data</td>
+<td>Common personal email domains are flagged as personal in the CRM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture">Architecture</h2>
+<pre><code>Booth scan (webhook)
+  → Event name from scan date        (which conference window the scan fell in)
+  → Email domain
+  → AI web search: company size &#x26; industry, by domain   → clean → parse
+  → AI classification: persona, tier, reason, talk track → clean → parse
+  → Owner by persona (rule)
+  → CRM: search by email → upsert contact with persona, tier, enrichment, talk track
+  → Only if new, or persona/tier changed:
+        Security executive / Identity engineer / Compliance auditor
+            → Hot alert  or  Warm alert
+        Competitor   → competitive-intel alert
+        Unclassified → post-event review
+        Out of scope → no alert
+</code></pre>
+<h2 id="outcome">Outcome</h2>
+<p>The flow processes all four test scans from the brief correctly: the security executive with an upcoming incumbent renewal comes out hot, the identity architect comes out as a warm champion, the 80-person company is out of scope with no alert, and the competitor is routed to competitive intel and marked unqualified. Everything runs on free tiers.</p>
+<h2 id="what-id-do-next">What I’d do next</h2>
+<ul>
+<li>Move the competitor domain list and the event calendar out of the flow into a table marketing can edit.</li>
+<li>Add an error route: if the AI step fails or returns bad JSON, still sync the contact and post it to review instead of stopping.</li>
+<li>Track how often reps override persona or tier after the event, as a running accuracy check on the classifier.</li>
+</ul></div></div></section><nav class="next in" aria-label="Next case study"><a href="/work/account-expansion-plan/"><span><span class="l">Next case study</span><span class="t">Quarterly Expansion Plan from Messy Data →</span></span><span class="h">Turn four messy datasets into a Q1 revenue plan.</span></a></nav></main><footer><div class="in"><span>© 2026 Liran Drabkin</span><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a></div></footer><script>(function(){const t = 0.26;
+const z = -950;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gl = window.Desert ? Desert.create(document.getElementById("gl"), { reduce }) : (document.body.classList.add("nogl"), null);
+  if (gl) {
+    const loop = (time) => { gl(time, t, z - Math.min(scrollY * 0.25, 900)); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();</script></body></html>

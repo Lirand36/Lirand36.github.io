@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Dedupe Tool · Liran Drabkin</title><meta name="description" content="Identify duplicate records, resolve conflicting field values and preserve the reasoning behind every merge decision."><meta property="og:title" content="Dedupe Tool · Liran Drabkin"><meta property="og:description" content="Identify duplicate records, resolve conflicting field values and preserve the reasoning behind every merge decision."><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/assets/case.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="/assets/desert.js"></script></head><body><canvas id="gl" aria-hidden="true"></canvas><div class="bar"><div class="in"><a class="nm" href="/">Liran Drabkin</a><nav aria-label="Main"><a href="/#work">Work</a><a href="/#thinking">How I think</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">LinkedIn ↗</a></nav></div></div><main><header class="chero in"><a class="back" href="/#work">← All work</a><span class="cat">Data quality</span><h1>Dedupe Tool</h1><p class="sub">Clean CRM data without losing the context behind it.</p><p class="headline">Fix CRM duplicates without sacrificing data integrity. Identify duplicate records, resolve conflicting field values and preserve the reasoning behind every merge decision.</p><div class="facts"><div><span class="l">My role</span><p>Product design, architecture and build</p></div><div><span class="l">Built with</span><ul class="chips"><li>TypeScript</li><li>Next.js</li><li>Postgres</li><li>Vitest</li><li>Render</li></ul></div><div><span class="l">How it works</span><ol class="flow"><li>Duplicates</li><li>Match ≥ 0.95</li><li>Field tags</li><li>Clean record</li></ol></div></div><p class="outcome">Every surviving value has a reason.</p></header><section class="summary in" aria-label="Summary"><div class="sumcard"><section><h2>The problem</h2><p>Duplicate CRM records create more than administrative noise.</p><p>They fragment customer history, compromise reporting, trigger inconsistent automations and make it harder for revenue teams to trust the information they rely on.</p><p>But merging records isn&#39;t simply about identifying two similar names. Conflicting field values can contain important information that shouldn&#39;t disappear during cleanup.</p></section><section><h2>What I built</h2><p>A deduplication workflow that identifies potential duplicates, evaluates matching confidence against a defined threshold, tags field-level decisions and produces a cleaner consolidated record.</p><p>The process uses a high-confidence matching threshold of 0.95 to distinguish reliable matches from records that require more scrutiny.</p></section><section class="no"><h2>Left out, on purpose</h2><p>Blind merging based on name similarity alone.</p><p>A duplicate match doesn&#39;t automatically mean every field should be overwritten. The process preserves the reasoning behind field-level decisions instead of silently discarding potentially valuable information.</p></section><section class="rule"><h2>The principle behind it</h2><p>Data quality isn&#39;t just about removing duplicates. It&#39;s about preserving the right information.</p></section><section class="res"><h2>The result</h2><p>Cleaner CRM records with greater data consistency and traceability.</p><p>Every surviving field value has a reason behind it, making the cleanup process easier to trust and audit.</p></section></div></section><section class="full in" aria-label="Full case study"><div class="paper"><span class="k">The full case study</span><div class="prose"><h2 id="the-business-problem">The business problem</h2>
+<p>Pressing “merge” is easy. The hard part is making sure the <strong>right data survives</strong> every merge.</p>
+<p>Example: Dana filled in a pricing-demo form in 2023. In 2025 an SDR cold-called her and created a second lead. After the merge you want how she <em>first</em> arrived (web form, the campaign) kept from the old record, the <em>latest</em> outbound owner and sequence from the new one, her <em>current</em> title, the <em>strongest</em> lifecycle stage she reached, and <em>all</em> her interests combined.</p>
+<p>Existing tools make you pick a master record and write a rule per field, and whatever loses is deleted. The logic has to be right up front and can’t be changed later. Attribution data, which marketing reports depend on, is usually the first casualty.</p>
+<p>I lived this in RevOps. Duplicate cleanup was one of the team’s most time-consuming jobs, and sales leadership couldn’t understand why it kept happening or why it was such a headache. A lose-lose situation: RevOps burned hours, and leadership lost trust in the data.</p>
+<h2 id="how-i-read-the-requirements">How I read the requirements</h2>
+<p>RevOps people think in terms of what a field <strong>means</strong> (“how they first came in”, “who’s working them now”), not in per-field algorithms. So the product had to speak that language, and every resulting value had to be explainable in one sentence.</p>
+<h2 id="key-decisions-and-trade-offs">Key decisions and trade-offs</h2>
+<p><strong>1. Tag meaning, don’t write rules.</strong>
+Each field gets one tag: <code>origin</code> (earliest value), <code>current</code> (latest non-empty), <code>channel</code> (earliest or latest from one channel, like inbound or outbound), <code>strongest</code> (highest in a ranking you give), or <code>combine</code> (all distinct values). About six tags cover almost every field, and tags are pre-filled from field names (“First_…” suggests <code>origin</code>), so setup is mostly confirming guesses. Every clean value comes with its reason, for example “Earliest inbound value (2023-03-01), from L-001”.</p>
+<p><strong>2. Keep small candidate slots, not full history.</strong>
+Storing every value ever seen would let you change the logic later, but it’s heavy and grows with every update. Instead, each duplicate group keeps a few slots per tagged field: earliest and latest, earliest and latest per channel, and distinct values only where needed. Size is bounded by groups × fields × a few slots, about a few hundred MB for 100k duplicate groups, not by how often records change. Retagging a field later just reads a different slot. The trade-off, written down: changing a <em>channel definition</em> only applies going forward.</p>
+<p><strong>3. Merging is order-independent.</strong>
+Combining slots is commutative and associative, with ties broken by source id, so the result never depends on sync order.</p>
+<p><strong>4. Quiet by default.</strong>
+High-confidence groups merge automatically. People only see an inbox of exceptions, with records side by side, the proposed clean record, and a reason per value.</p>
+<p><strong>5. Examples are tests.</strong>
+A corrected duplicate can be saved as an example. Before a logic change goes live, a preview shows what would change and which saved examples would break.</p>
+<p><strong>6. The engine knows nothing about any CRM.</strong>
+A pure TypeScript core with no I/O, so every rule is unit-testable and the same code runs in the CLI, the web preview and later the background worker. CRMs and files are connectors behind one interface.</p>
+<h2 id="how-i-handled-risk">How I handled risk</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRM merges can’t be fully undone</td>
+<td>Snapshot before every merge, sandbox first, dry run by default</td>
+</tr>
+<tr>
+<td>Wrong auto-merges destroy trust in the tool</td>
+<td>Auto-merge only at confidence ≥ 0.95; a shared free-email domain is never a match signal; a group is only as confident as its weakest link</td>
+</tr>
+<tr>
+<td>Changing logic silently breaks past decisions</td>
+<td>Preview impact before save; saved examples act as regression tests; decisions on unchanged groups are kept</td>
+</tr>
+<tr>
+<td>History from before the tool is partial</td>
+<td>Backfill from date and source fields, campaign members and form submissions, and mark those values as reconstructed</td>
+</tr>
+<tr>
+<td>Bad input data</td>
+<td>Config and CSV validated at the boundary, with every problem listed in plain words</td>
+</tr>
+<tr>
+<td>API rate limits</td>
+<td>Bulk APIs, per-connector rate budgets, resumable jobs (planned)</td>
+</tr>
+<tr>
+<td>Code quality drift</td>
+<td>Strict TypeScript, 80% coverage gate on lines, branches, functions and statements, CI on every push</td>
+</tr>
+</tbody>
+</table>
+<p>Every major choice is recorded as an architecture decision record, including what it costs.</p>
+<h2 id="architecture">Architecture</h2>
+<pre><code>packages/core   pure engine: normalize → match → group → candidate slots → clean record + reasons
+packages/cli    CSV in, clean CSV out (auto / review tier per group)
+apps/web        Health · Inbox · Logic · Data, on Postgres
+</code></pre>
+<h2 id="outcome">Outcome</h2>
+<p>Phases 0 to 2.7 are shipped: the engine, a CSV command line, and a web app that previews duplicates per object, supports overrides and bulk actions, and plans merges. Live CRM write-back is the next phase.</p>
+<h2 id="whats-next">What’s next</h2>
+<p>CRM connection with background sync and undo snapshots, then lead-to-account matching and a health dashboard with a chat digest, then hardening for 1–5 million records.</p></div></div></section><nav class="next in" aria-label="Next case study"><a href="/work/signature-path-forecast/"><span><span class="l">Next case study</span><span class="t">Signature Path Forecast →</span></span><span class="h">Forecast what customers say, not what reps hope.</span></a></nav></main><footer><div class="in"><span>© 2026 Liran Drabkin</span><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a></div></footer><script>(function(){const t = 0.8;
+const z = -2650;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gl = window.Desert ? Desert.create(document.getElementById("gl"), { reduce }) : (document.body.classList.add("nogl"), null);
+  if (gl) {
+    const loop = (time) => { gl(time, t, z - Math.min(scrollY * 0.25, 900)); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();</script></body></html>

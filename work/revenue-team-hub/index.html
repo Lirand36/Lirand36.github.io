@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Revenue Team Hub · Liran Drabkin</title><meta name="description" content="Turn a closed-won event into coordinated updates across seven business tools, connecting Sales, Support and Customer Success through a single workflow."><meta property="og:title" content="Revenue Team Hub · Liran Drabkin"><meta property="og:description" content="Turn a closed-won event into coordinated updates across seven business tools, connecting Sales, Support and Customer Success through a single workflow."><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..700&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="/assets/case.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="/assets/desert.js"></script></head><body><canvas id="gl" aria-hidden="true"></canvas><div class="bar"><div class="in"><a class="nm" href="/">Liran Drabkin</a><nav aria-label="Main"><a href="/#work">Work</a><a href="/#thinking">How I think</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">LinkedIn ↗</a></nav></div></div><main><header class="chero in"><a class="back" href="/#work">← All work</a><span class="cat">Revenue operations</span><h1>Revenue Team Hub</h1><p class="sub">A closed deal shouldn&#39;t trigger seven manual processes.</p><p class="headline">One closed deal. Seven systems in sync. Turn a closed-won event into coordinated updates across seven business tools, connecting Sales, Support and Customer Success through a single workflow.</p><div class="facts"><div><span class="l">My role</span><p>Designed and built end to end</p></div><div><span class="l">Built with</span><ul class="chips"><li>Node.js</li><li>JavaScript</li><li>HubSpot</li><li>Intercom</li><li>Jira</li><li>Slack</li><li>Snowflake</li><li>Claude</li><li>Google Calendar</li></ul></div><div><span class="l">How it works</span><ol class="flow"><li>Deal closes</li><li>Business rule</li><li>7 tools</li><li>Next action</li></ol></div></div><p class="outcome">One business event triggers the next action across seven tools.</p></header><section class="summary in" aria-label="Summary"><div class="sumcard"><section><h2>The problem</h2><p>Closing a deal is the beginning of several operational workflows.</p><p>Sales, Support and Customer Success each need updated information, but the handoff between teams often depends on manual updates across disconnected systems.</p><p>The result is duplicated work, inconsistent records and unnecessary friction at the moment a customer transitions from prospect to customer.</p></section><section><h2>What I built</h2><p>A cross-system revenue workflow that uses a closed-won event and business rules to coordinate updates and trigger the appropriate next actions across seven connected tools.</p><p>One business event becomes the trigger for a consistent operational process across the revenue organization.</p></section><section class="no"><h2>Left out, on purpose</h2><p>Treating each system as an isolated integration.</p><p>The workflow is organized around the business event and its downstream requirements, rather than creating disconnected automations with no shared understanding of the customer lifecycle.</p></section><section class="rule"><h2>The principle behind it</h2><p>Automate the business process, not just the individual tools.</p></section><section class="res"><h2>The result</h2><p>A coordinated closed-won workflow that connects seven tools and reduces manual handoffs between Sales, Support and Customer Success.</p></section></div></section><section class="full in" aria-label="Full case study"><div class="paper"><span class="k">The full case study</span><div class="prose"><h2 id="the-business-problem">The business problem</h2>
+<p>This project is a vision of how GTM teams should work today: fast, efficient, and in a single tool that works as one revenue machine, instead of a dozen tabs.</p>
+<p>Most revenue teams run Sales, Support and Customer Success across seven or more tools: a CRM, a support inbox, an issue tracker, team chat, a data warehouse, an AI model and calendars. Every handoff between teams (a deal closes, a customer escalates, usage drops before a renewal) means switching tools and copying context by hand, and things fall through.</p>
+<p>To make the vision concrete, I set it inside a real-world business: a software company selling procurement and AI invoice processing to hotel groups.</p>
+<h2 id="how-i-read-the-requirements">How I read the requirements</h2>
+<p>The key decision was <strong>not to replace any tool</strong>. The teams keep their CRM, inbox, tracker and chat; the hub works <em>through</em> them. Reps get one UI built around the company’s own world (hotel groups, properties, purchase orders, invoices) instead of generic CRM objects.</p>
+<p>From there I designed per role, not per tool:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Lands on</th>
+<th>Core job</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account executive</td>
+<td>Pipeline, own deals</td>
+<td>Move deals forward, follow up before prospects go quiet</td>
+</tr>
+<tr>
+<td>Sales manager</td>
+<td>Team pipeline, approvals</td>
+<td>Approve discounts, coach on stuck deals</td>
+</tr>
+<tr>
+<td>Support</td>
+<td>Inbox</td>
+<td>Answer within SLA, escalate to engineering cleanly</td>
+</tr>
+<tr>
+<td>Customer Success</td>
+<td>Portfolio, riskiest first</td>
+<td>Catch churn risk before renewal, run onboarding</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-decisions-and-trade-offs">Key decisions and trade-offs</h2>
+<p><strong>1. “Next best action” as the core unit.</strong>
+Everyone lands on a role-specific dashboard: a short summary, four KPIs, and a ranked list of actions, each with one button. Many finish in one click: approve a discount, escalate a conversation, mark an onboarding step done. Each action says what to do <em>and why</em> (“Follow up with Hannah · No reply in 16 days”).</p>
+<p><strong>2. One business event, every system updated.</strong>
+Marking a deal closed-won in one click updates the CRM, announces the win in chat, creates an onboarding channel with the checklist, opens an onboarding epic in the tracker, and logs the event to the warehouse.</p>
+<p><strong>3. Stage gates that ask only for what the stage needs.</strong>
+Moving a deal forward asks for that stage’s facts (pain and decision maker at Qualified; date, solutions engineer and attendees at Demo; signer and legal contact at Contract), prefilled from the CRM and written back to it. Pipeline data gets better as a side effect of doing the work.</p>
+<p><strong>4. An explainable health score.</strong>
+Customer health (0–100) is a weighted sum the CSM can read: usage trend 30%, adoption 15%, support load 20%, platform stability 15%, sentiment 20%. Each part shows its score and its reason, and a renewal within 90 days amplifies other warning signs.</p>
+<p><strong>5. Business rules live in one config.</strong>
+Discount approval above 15%, “quiet” after 7 days without a reply, “stuck” after 14 days in a stage, SLAs of 1 hour for Enterprise and 4 hours for everyone else.</p>
+<p><strong>6. AI assists, people decide.</strong>
+In the support inbox, one click gives a summary, the customer’s mood, the likely category, a next step and a draft reply, as structured output. The agent chooses whether to use the draft.</p>
+<h2 id="how-i-handled-risk">How I handled risk</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>What I built</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>People seeing or changing what they shouldn’t</td>
+<td>Role-based access enforced <strong>on the server</strong>: every API call is checked against one rules file, and AEs can only change their own deals. The UI mirrors it; it doesn’t enforce it.</td>
+</tr>
+<tr>
+<td>Fake inbound webhooks</td>
+<td>Inbound chat and support webhooks are signature-verified</td>
+</tr>
+<tr>
+<td>Secrets leaking into logs</td>
+<td>All outbound calls go through one gateway that logs, times, and <strong>redacts secrets</strong></td>
+</tr>
+<tr>
+<td>Breaking real systems during a demo</td>
+<td>Every connector runs in mock mode by default: requests are built exactly as the real API expects, shown in the activity log, and answered with a realistic fake. Each system goes live on its own when credentials are added.</td>
+</tr>
+<tr>
+<td>Irreversible actions by mistake</td>
+<td>Marking a deal lost and resetting data ask for confirmation; escalation to engineering is a separate red button that asks first</td>
+</tr>
+<tr>
+<td>Silent failures nobody can trace</td>
+<td>An activity log tells the story of every action in plain words, with the exact request and response one click down</td>
+</tr>
+<tr>
+<td>Escalations missed</td>
+<td>SLA countdowns, with a single chat alert on breach; Enterprise and upset customers auto-flagged</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture">Architecture</h2>
+<pre><code>Browser (no build step)
+  ⇅ REST + server-sent events (live updates)
+Server
+  ├─ home / deals      per-role dashboards and sales signals
+  ├─ services          business actions ("what happens when a deal closes")
+  ├─ access            what each role can see and do
+  ├─ activity          plain-language log of every action
+  └─ connectors        CRM · inbox · tracker · chat · warehouse · AI · calendar
+        └─ one gateway: logging, timing, secret redaction, mock/live switch
+</code></pre>
+<h2 id="outcome">Outcome</h2>
+<p>A working hub with a 6-minute demo script covering every role, deployable as a shareable link, with each integration switchable from mock to live independently.</p>
+<h2 id="from-prototype-to-production">From prototype to production</h2>
+<ul>
+<li>Back the in-memory demo data with Postgres, kept current by webhooks and scheduled warehouse pulls.</li>
+<li>Single sign-on with roles from identity-provider groups, records scoped by CRM owner.</li>
+<li>A job queue with retries and idempotency keys for outbound calls.</li>
+<li>Credentials in a secret manager instead of environment files.</li>
+</ul></div></div></section><nav class="next in" aria-label="Next case study"><a href="/work/dedupe-tool/"><span><span class="l">Next case study</span><span class="t">Dedupe Tool →</span></span><span class="h">Fix CRM duplicates without sacrificing data integrity.</span></a></nav></main><footer><div class="in"><span>© 2026 Liran Drabkin</span><a href="https://www.linkedin.com/in/liran-drabkin/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a></div></footer><script>(function(){const t = 0.7;
+const z = -2200;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gl = window.Desert ? Desert.create(document.getElementById("gl"), { reduce }) : (document.body.classList.add("nogl"), null);
+  if (gl) {
+    const loop = (time) => { gl(time, t, z - Math.min(scrollY * 0.25, 900)); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();</script></body></html>
